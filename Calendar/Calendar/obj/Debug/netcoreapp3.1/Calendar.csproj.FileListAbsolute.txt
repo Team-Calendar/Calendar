@@ -1,0 +1,4 @@
+D:\HOSPITAL_JAVA_PROJECT\Calendar\Calendar\obj\Debug\netcoreapp3.1\Calendar.csprojAssemblyReference.cache
+D:\HOSPITAL_JAVA_PROJECT\Calendar\Calendar\obj\Debug\netcoreapp3.1\Calendar.AssemblyInfoInputs.cache
+D:\HOSPITAL_JAVA_PROJECT\Calendar\Calendar\obj\Debug\netcoreapp3.1\Calendar.AssemblyInfo.cs
+D:\HOSPITAL_JAVA_PROJECT\Calendar\Calendar\obj\Debug\netcoreapp3.1\Calendar.csproj.CoreCompileInputs.cache
