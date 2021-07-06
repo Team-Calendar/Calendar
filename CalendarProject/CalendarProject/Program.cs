@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,17 +12,38 @@ namespace CalendarProject
     {
         static void Main(string[] args)
         {
-            var context = new CalendarDBEntities();
+            string connectionString = "Server=localhost\\MSSQLSERVER01;Database=CalendarDB;Trusted_Connection=True;";
 
-            var events = context.Event.ToList();
-            var places = context.Place.ToList();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Place";
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID: {reader[0]}\tName: {reader[1]}\tAddress {reader[2]}:");
+                }
 
-            var place = new Place();
-            context.Place.Add(place);
-            context.SaveChanges();
+                string query1 = "SELECT * FROM Event";
+                SqlCommand command1 = new SqlCommand(query, connection);
+                SqlDataReader reader1 = command.ExecuteReader();
 
-            Console.WriteLine(places.Count());
+            }
 
         }
+        private static void CreateCommand(string queryString,
+        string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection(
+                       connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }

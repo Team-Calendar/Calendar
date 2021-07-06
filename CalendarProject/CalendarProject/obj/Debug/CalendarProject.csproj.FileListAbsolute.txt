@@ -1,12 +1,10 @@
 C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\CalendarProject.exe.config
 C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\CalendarProject.exe
 C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\CalendarProject.pdb
-C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\EntityFramework.dll
-C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\EntityFramework.xml
-C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.csproj.AssemblyReference.cache
 C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.csproj.CoreCompileInputs.cache
-C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.csproj.CopyComplete
 C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.exe
 C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.pdb
+C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\DocumentFormat.OpenXml.dll
+C:\Users\User\source\repos\CalendarProject\CalendarProject\bin\Debug\DocumentFormat.OpenXml.xml
+C:\Users\User\source\repos\CalendarProject\CalendarProject\obj\Debug\CalendarProject.csproj.CopyComplete
