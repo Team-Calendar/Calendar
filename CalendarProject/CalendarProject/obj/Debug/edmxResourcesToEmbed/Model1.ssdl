@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CalendarDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'CalendarDB.dbo.events' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="events">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="start_time" />
+      <PropertyRef Name="end_time" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
+    <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
+    <Property Name="comment" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'CalendarDB.dbo.types' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="types">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityContainer Name="CalendarDBModelStoreContainer">
+    <EntitySet Name="events" EntityType="Self.events" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [events].[id] AS [id], 
+    [events].[name] AS [name], 
+    [events].[date] AS [date], 
+    [events].[start_time] AS [start_time], 
+    [events].[end_time] AS [end_time], 
+    [events].[comment] AS [comment]
+    FROM [dbo].[events] AS [events]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="types" EntityType="Self.types" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [types].[id] AS [id], 
+    [types].[name] AS [name]
+    FROM [dbo].[types] AS [types]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
