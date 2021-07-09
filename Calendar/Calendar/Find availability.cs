@@ -11,8 +11,8 @@ namespace Calendar
     {
         public void FindTime()
         {
-            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
-     
+            string connectionString = "Data Source=DESKTOP-L2ESCEA\\MSSQLSERVER01;Initial Catalog=Calendar;Integrated Security=True;";
+
         }
 
     }
