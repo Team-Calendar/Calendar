@@ -1,0 +1,7 @@
+D:\School Projects and Work\Calendar final version\Calendar final version\bin\Debug\Calendar final version.exe.config
+D:\School Projects and Work\Calendar final version\Calendar final version\bin\Debug\Calendar final version.exe
+D:\School Projects and Work\Calendar final version\Calendar final version\bin\Debug\Calendar final version.pdb
+D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.csprojAssemblyReference.cache
+D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.csproj.CoreCompileInputs.cache
+D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.exe
+D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.pdb
