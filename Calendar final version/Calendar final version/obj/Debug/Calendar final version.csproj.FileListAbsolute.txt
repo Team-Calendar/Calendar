@@ -5,3 +5,10 @@ D:\School Projects and Work\Calendar final version\Calendar final version\obj\De
 D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.csproj.CoreCompileInputs.cache
 D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.exe
 D:\School Projects and Work\Calendar final version\Calendar final version\obj\Debug\Calendar final version.pdb
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\obj\Debug\Calendar final version.csprojAssemblyReference.cache
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\obj\Debug\Calendar final version.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\obj\Debug\Calendar final version.exe
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\obj\Debug\Calendar final version.pdb
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\bin\Debug\Calendar final version.exe.config
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\bin\Debug\Calendar final version.exe
+C:\Users\User\Desktop\github2\Calendar\Calendar final version\Calendar final version\bin\Debug\Calendar final version.pdb

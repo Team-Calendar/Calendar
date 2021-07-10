@@ -1,12 +1,11 @@
-﻿using Calendar;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarProject
+namespace Calendar_final_version
 {
     class Program
     {
