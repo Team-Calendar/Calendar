@@ -17,10 +17,7 @@ namespace Calendar_final_version
         public DateTime End_Time { get; set; }
         public string Place { get; set; }
         public string Comment { get; set; }
-
-
-
-
+      
         public DB_Connection(string T, DateTime D, DateTime S, DateTime E, string P, string C)
         {
             this.TextValue = T;
@@ -37,17 +34,13 @@ namespace Calendar_final_version
 
         }
         public void CreateEvent()
-        {
-            //DateTime MaxTime = new DateTime(8,00,00);
-            //DateTime MaxTimne2 = new DateTime(17,00,00);
+        {     
+            if (Start_Time.Hour <8 || End_Time.Hour >17)
+            {          
+                throw new InvalidOperationException("Enter hour that is between 8am and 5pm.");
+            }
 
-            //if (Start_Time< MaxTime || End_Time >MaxTimne2)
-            //{
-            //    throw new InvalidOperationException("You cant set Events that are before 8am and until 5pm!");
-            //}
-
-            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
-            Console.WriteLine("1.Create Event");
+            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";     
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -62,7 +55,6 @@ namespace Calendar_final_version
                 command.ExecuteNonQuery();
                 Console.WriteLine("You succsessfully added new Event!");
             }
-
         }
 
         public void SearchEvent()
@@ -71,10 +63,10 @@ namespace Calendar_final_version
             string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                Console.WriteLine("Enter the name and date of the event?");
-                Console.WriteLine("Enter the name!");
+                Console.WriteLine("Enter the name and date of the event.");
+                Console.WriteLine("Enter the name.");
                 var Name = Console.ReadLine();
-                Console.WriteLine("Enter the date!");
+                Console.WriteLine("Enter the date./dd.mm.yyyy");
                 DateTime EvDate = DateTime.Parse(Console.ReadLine());
                 Console.WriteLine("Do you want to 1 - Cancel or 2 - Edit the event ?");
                 int choise = Int32.Parse(Console.ReadLine());
@@ -94,34 +86,39 @@ namespace Calendar_final_version
                 }
 
                 if (choise == 2)
-                {
-                    Console.WriteLine("Enter your new event name!");
-                    var NewName = Console.ReadLine();
-                    Console.WriteLine("Enter new Date!");
-                    DateTime Date = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter new StartTime!");
-                    DateTime StartTime = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Emter mew EndTime!");
-                    DateTime EndTime = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter new event Place!");
-                    var Place = Console.ReadLine();
-                    Console.WriteLine("Enter comment!");
-                    var Comment = Console.ReadLine();
-
+                 {
                     connection.Open();
-                   string query = "UPDATE Events SET (name,date,star_time,end_time,placem,comment) = (@NewName,@Date, @StartTime, @EndTime,@Place,@Comment) WHERE name =@Name";
+                    Console.WriteLine("Enter your new event name.");
+                    string NewName = Console.ReadLine();
+                    Console.WriteLine("Enter new Date./dd.mm.yyyy");
+                    DateTime date = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter new StartTime./hh:mm:ss");
+                    DateTime StartTime = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("Emter mew EndTime./hh:mm:ss");
+                    DateTime EndTime = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter new event Place.");
+                    string place = Console.ReadLine();
+                    Console.WriteLine("Enter comment.");
+                    string comment = Console.ReadLine();
+
+                    if (StartTime.Hour < 8 || EndTime.Hour > 17)
+                    {
+                        throw new InvalidOperationException("Enter hour that is between 8am and 5pm.");
+                    }
+                    string query = "UPDATE Events SET name=@NewName , date = @date , start_time = @StartTime ,end_time = @EndTime , place = @place , comment =@comment WHERE name =@Name AND date =@EvDate";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-
+                        command.Parameters.AddWithValue("@EvDate", EvDate);
+                        command.Parameters.AddWithValue("@Name", Name);
                         command.Parameters.AddWithValue("@NewName", NewName);
-                        command.Parameters.AddWithValue("@Date", Date);
+                        command.Parameters.AddWithValue("@Date", date);
                         command.Parameters.AddWithValue("@StartTime", StartTime);
                         command.Parameters.AddWithValue("@EndTime", EndTime);
-                        command.Parameters.AddWithValue("@Place", Place);
-                        command.Parameters.AddWithValue("@Comment", Comment);
+                        command.Parameters.AddWithValue("@Place", place);
+                        command.Parameters.AddWithValue("@Comment", comment);
                         command.ExecuteNonQuery();
                     }
-
+                    Console.WriteLine("Event changed successfully!");
                 }
             }
         }
@@ -131,22 +128,51 @@ namespace Calendar_final_version
             string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    Console.WriteLine("Chose what date you want to see your schedule ?");
-                    DateTime enterDate = DateTime.Parse(Console.ReadLine());      
-                    connection.Open();
+            {
+                Console.WriteLine("Chose what date you want to see your schedule./dd.mm.yyyy");
+                DateTime enterDate = DateTime.Parse(Console.ReadLine());
+                connection.Open();
 
-                    string query = "SELECT * FROM Events  WHERE date = @EnterDate ORDER BY start_time ASC";
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@EnterDate", enterDate);
-             
+                string query = "SELECT * FROM Events  WHERE date = @EnterDate ORDER BY start_time ASC";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@EnterDate", enterDate);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID:{reader[0]}\tname:{reader[1]}\tdate:{reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}\tplace:{reader[5]}\tcomment:{reader[6]}");
+                }
+            }
+
+        }
+
+        public void FindAvailability()
+        {
+            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";      
+            Console.WriteLine("Enter the  start time./hh:mm:ss");
+            TimeSpan Start_Time = TimeSpan.Parse(Console.ReadLine());
+         
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Events  WHERE NOT @Start_Time BETWEEN start_time AND end_time ";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Start_Time", Start_Time);
+                    command.ExecuteNonQuery();
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        Console.WriteLine($"ID:{reader[0]}\tname:{reader[1]}\tdate:{reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}\tplace:{reader[5]}\tcomment:{reader[6]}");
+                        Console.WriteLine($"You have avable hours on {reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}");
                     }
-                }
+                }          
+
+            }
+
 
         }
 
