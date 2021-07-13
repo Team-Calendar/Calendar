@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Calendar_final_version
 {
     class Program
+            //#daPipnemCoda
     {
 
         public static void ValidateData(string NewName, DateTime StartTime, DateTime EndTime, string Place, string Comment)
@@ -32,7 +33,7 @@ namespace Calendar_final_version
         {
             Console.WriteLine("Enter your new event name.");
             string NewName = Console.ReadLine();
-            Console.WriteLine("Enter new Date!/dd.mm.yyyy");
+            Console.WriteLine("Enter new Date!/mm.dd.yyyy");
             DateTime Date = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter new StartTime!/hh:mm:ss");
             DateTime StartTime = DateTime.Parse(Console.ReadLine());
@@ -69,7 +70,7 @@ namespace Calendar_final_version
                     EventEditor.FindAvailability();
                     break;
                 default:
-                    Console.WriteLine("Please chose correct choise!");
+                    Console.WriteLine("Please choose correct choise!");
                     Choise();
                     break;
             }
