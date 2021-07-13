@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,6 +15,23 @@ namespace Calendar_final_version
         public DB_Connection()
         {
             this.ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
+        }
+        public void CreateEvent(string TextValue, DateTime Date, DateTime Start_Time, DateTime End_Time, string Place, string Comment)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                var command =
+                    new SqlCommand("INSERT INTO Events (name,date,start_time,end_time,place,comment) VALUES (@TextValue,@Date,@Start_Time,@End_Time,@Place,@Comment);", connection);
+                command.Parameters.AddWithValue("@textValue", TextValue);
+                command.Parameters.AddWithValue("@Date", Date);
+                command.Parameters.AddWithValue("@Start_time", Start_Time);
+                command.Parameters.AddWithValue("@End_time", End_Time);
+                command.Parameters.AddWithValue("@Place", Place);
+                command.Parameters.AddWithValue("@Comment", Comment);
+                command.ExecuteNonQuery();
+                Console.WriteLine("You succsessfully added new Event!");
+            }
         }
         public void DealeteEvent(string Name, DateTime EveDate)
         {        
@@ -91,4 +108,3 @@ namespace Calendar_final_version
             }
         }
   }
-            
