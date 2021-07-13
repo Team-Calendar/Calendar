@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Calendar_final_version
 {
-   
+    //#daPipnemCoda
     class DB_Connection
-    {   
-       public string ConnectionString { get; set; }
+    {
+        public string ConnectionString { get; set; }
 
         public DB_Connection()
         {
@@ -34,7 +34,7 @@ namespace Calendar_final_version
             }
         }
         public void DealeteEvent(string Name, DateTime EveDate)
-        {        
+        {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -48,15 +48,11 @@ namespace Calendar_final_version
                 Console.WriteLine("You canceled the event succsessfully!");
             }
         }
-        public void EditEvent(string Name,DateTime EvDate, string NewName, DateTime date, DateTime StartTime, DateTime EndTime, string place, string comment)
+        public void EditEvent(string Name, DateTime EvDate, string NewName, DateTime date, DateTime StartTime, DateTime EndTime, string place, string comment)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                connection.Open();        
-                if (StartTime.Hour < 8 || EndTime.Hour > 17)
-                {
-                    throw new InvalidOperationException("Enter hour that is between 8am and 5pm.");
-                }
+                connection.Open();
                 string query = "UPDATE Events SET name=@NewName , date = @date , start_time = @StartTime ,end_time = @EndTime , place = @place , comment =@comment WHERE name =@Name AND date =@EvDate";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -73,38 +69,52 @@ namespace Calendar_final_version
                 Console.WriteLine("Event changed successfully!");
             }
         }
-            public void Schedule(DateTime enterDate)
-            {   
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {                 
-                    connection.Open();
-                    string query = "SELECT * FROM Events  WHERE date = @EnterDate ORDER BY start_time ASC";
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@EnterDate", enterDate);
+        public void Schedule(DateTime enterDate)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Events  WHERE date = @EnterDate ORDER BY start_time ASC";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@EnterDate", enterDate);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID:{reader[0]}\tname:{reader[1]}\tdate:{DateTime.Parse(reader[2].ToString()).ToString("dd.MM.yyyy")}\tstart_time:{reader[3]}\tend_time:{reader[4]}\tplace:{reader[5]}\tcomment:{reader[6]}");
+                }
+            }
+        }
+        public void FindAvailability(TimeSpan Start_Time)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Events  WHERE NOT @Start_Time BETWEEN start_time AND end_time ";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Start_Time", Start_Time);
+                    command.ExecuteNonQuery();
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Console.WriteLine($"ID:{reader[0]}\tname:{reader[1]}\tdate:{reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}\tplace:{reader[5]}\tcomment:{reader[6]}");
-                    }
-               }
-            }
-            public void FindAvailability(TimeSpan Start_Time)
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    string query = "SELECT * FROM Events  WHERE NOT @Start_Time BETWEEN start_time AND end_time ";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Start_Time", Start_Time);
-                        command.ExecuteNonQuery();
-                        SqlDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Console.WriteLine($"You have avable hours on {reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}");
-                        }
+                        Console.WriteLine($"You have avable hours on {reader[2]}\tstart_time:{reader[3]}\tend_time:{reader[4]}");
                     }
                 }
             }
         }
-  }
+        public void PrintAllEvents()
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Events ORDER BY date ASC";
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID:{reader[0]}\tname:{reader[1]}\tdate:{DateTime.Parse(reader[2].ToString()).ToString("dd.MM.yyyy")}\tstart_time:{reader[3]}\tend_time:{reader[4]}\tplace:{reader[5]}\tcomment:{reader[6]}");
+                }
+            }
+        }
+    }
+}
