@@ -1,54 +1,111 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace Calendar_final_version
-{
+{ //#daPipnemCoda
     class Events
     {
-        public void UserChoice()
+        public string TextValue { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime Start_Time { get; set; }
+        public DateTime End_Time { get; set; }
+        public string Place { get; set; }
+        public string Comment { get; set; }
+
+        public Events(string T, DateTime D, DateTime S, DateTime E, string P, string C)
         {
-            Console.WriteLine("Please choose what to do (1 - Create an event | 2- Search event | 3 - Daily schedule | 4 - Find availability)");
-            int a = Int32.Parse(Console.ReadLine());
-            switch (a)
+            this.TextValue = T;
+            this.Date = D;
+            this.Start_Time = S;
+            this.End_Time = E;
+            this.Place = P;
+            this.Comment = C;
+        }
+
+        public Events()
+        {
+            this.TextValue = "Nothing";
+            this.Place = "Nothing";
+            this.Comment = "Nothing";
+        }
+        public void CreateEvent()
+        {
+            DB_Connection Create = new DB_Connection();
+            Create.CreateEvent(TextValue, Date, Start_Time, End_Time, Place, Comment);
+        }
+
+        public void EditEvent()
+        {
+            DB_Connection Edit = new DB_Connection();
+            Edit.PrintAllEvents();
+            Console.WriteLine("Enter the event name you want to Edit.");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Enter the event date you want to Edit.");
+            DateTime EvDate = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Enter your new event name.");
+            string NewName = Console.ReadLine();
+            Console.WriteLine("Enter new Date./mm.dd.yyyy");
+            DateTime Date = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Enter new StartTime./hh:mm:ss");
+            DateTime StartTime = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Enter new EndTime./hh:mm:ss");
+            DateTime EndTime = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Enter new event Place.");
+            string Place = Console.ReadLine();
+            Console.WriteLine("Enter comment.");
+            string Comment = Console.ReadLine();
+            if (string.IsNullOrEmpty(NewName) || string.IsNullOrEmpty(Place) || string.IsNullOrEmpty(Comment))
             {
-                case 1:
-                    Console.WriteLine("Enter your new event name.");
-                    string NewName = Console.ReadLine();
-                    Console.WriteLine("Enter new Date!/dd.mm.yyyy");
-                    DateTime Date = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter new StartTime!/hh:mm:ss");
-                    DateTime StartTime = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Emter mew EndTime!/hh:mm:ss");
-                    DateTime EndTime = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter new event Place.");
-                    string Place = Console.ReadLine();
-                    Console.WriteLine("Enter comment.");
-                    string Comment = Console.ReadLine();
-                    DB_Connection User = new DB_Connection(NewName, Date, StartTime, EndTime, Place, Comment);
-                    User.CreateEvent();
-                    break;
+                Console.WriteLine("You entered a non-valid information!");
+                Console.ReadLine();
+                Console.Clear();
+                EditEvent();
+                return;
+            }
+            if (StartTime.Hour < 8 || EndTime.Hour > 17)
+            {
+                Console.WriteLine("Please enter an event between 8am and 5pm!");
+                Console.ReadLine();
+                Console.Clear();
+                EditEvent();
+                return;
+            }
+            Edit.EditEvent(Name, EvDate, NewName, Date, StartTime, EndTime, Place, Comment);
+        }
 
-                case 2:
-                    DB_Connection User2 = new DB_Connection();
-                    User2.SearchEvent();
-                    break;
+        public void CancelEvent()
+        {
+            DB_Connection Cancel = new DB_Connection();
+            Cancel.PrintAllEvents();
+            Console.WriteLine("Enter the name and date of the event.");
+            Console.WriteLine("Enter the name.");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Enter the date./mm.dd.yyyy");
+            DateTime EvDate = DateTime.Parse(Console.ReadLine());
+            Cancel.DealeteEvent(Name, EvDate);
+        }
 
-                case 3:
-                    DB_Connection User3 = new DB_Connection();
-                    User3.Schedule();
-                    break;
+        public void Schedule()
+        {
 
-                case 4:
-                    DB_Connection User4 = new DB_Connection();
-                    User4.FindAvailability();
-                    break;
-            }   
+            DB_Connection Schedule = new DB_Connection();
+            Schedule.PrintAllEvents();
+            Console.WriteLine("Choose what date you want to see your schedule./dd.mm.yyyy");
+            DateTime ScheduleDate = DateTime.Parse(Console.ReadLine());
+            Schedule.Schedule(ScheduleDate);
+        }
 
-
+        public void FindAvailability()
+        {
+            Console.WriteLine("Enter the start time./hh:mm:ss");
+            TimeSpan Start_Time = TimeSpan.Parse(Console.ReadLine());
+            DB_Connection Availability = new DB_Connection();
+            Availability.FindAvailability(Start_Time);
 
         }
+
     }
 }
