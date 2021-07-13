@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace Calendar_final_version
-{
+{ //#daPipnemCoda
     class Events
     {
         public string TextValue { get; set; }
@@ -36,9 +36,11 @@ namespace Calendar_final_version
             DB_Connection Create = new DB_Connection();
             Create.CreateEvent(TextValue, Date, Start_Time, End_Time, Place, Comment);
         }
-      
+
         public void EditEvent()
         {
+            DB_Connection Edit = new DB_Connection();
+            Edit.PrintAllEvents();
             Console.WriteLine("Enter the event name you want to Edit.");
             string Name = Console.ReadLine();
             Console.WriteLine("Enter the event date you want to Edit.");
@@ -61,6 +63,7 @@ namespace Calendar_final_version
                 Console.ReadLine();
                 Console.Clear();
                 EditEvent();
+                return;
             }
             if (StartTime.Hour < 8 || EndTime.Hour > 17)
             {
@@ -68,27 +71,30 @@ namespace Calendar_final_version
                 Console.ReadLine();
                 Console.Clear();
                 EditEvent();
+                return;
             }
-            DB_Connection Edit = new DB_Connection();
             Edit.EditEvent(Name, EvDate, NewName, Date, StartTime, EndTime, Place, Comment);
         }
 
         public void CancelEvent()
         {
+            DB_Connection Cancel = new DB_Connection();
+            Cancel.PrintAllEvents();
             Console.WriteLine("Enter the name and date of the event.");
             Console.WriteLine("Enter the name.");
             string Name = Console.ReadLine();
             Console.WriteLine("Enter the date./mm.dd.yyyy");
             DateTime EvDate = DateTime.Parse(Console.ReadLine());
-            DB_Connection Cancel = new DB_Connection();
             Cancel.DealeteEvent(Name, EvDate);
         }
 
         public void Schedule()
         {
+
+            DB_Connection Schedule = new DB_Connection();
+            Schedule.PrintAllEvents();
             Console.WriteLine("Choose what date you want to see your schedule./dd.mm.yyyy");
             DateTime ScheduleDate = DateTime.Parse(Console.ReadLine());
-            DB_Connection Schedule = new DB_Connection();
             Schedule.Schedule(ScheduleDate);
         }
 
