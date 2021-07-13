@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -33,21 +33,8 @@ namespace Calendar_final_version
         }
         public void CreateEvent()
         {
-            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=CalendarDB;Trusted_Connection=True;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                var command =
-                    new SqlCommand("INSERT INTO Events (name,date,start_time,end_time,place,comment) VALUES (@TextValue,@Date,@Start_Time,@End_Time,@Place,@Comment);", connection);
-                command.Parameters.AddWithValue("@textValue", TextValue);
-                command.Parameters.AddWithValue("@Date", Date);
-                command.Parameters.AddWithValue("@Start_time", Start_Time);
-                command.Parameters.AddWithValue("@End_time", End_Time);
-                command.Parameters.AddWithValue("@Place", Place);
-                command.Parameters.AddWithValue("@Comment", Comment);
-                command.ExecuteNonQuery();
-                Console.WriteLine("You succsessfully added new Event!");
-            }
+            DB_Connection Create = new DB_Connection();
+            Create.CreateEvent(TextValue, Date, Start_Time, End_Time, Place, Comment);
         }
       
         public void EditEvent()
@@ -58,11 +45,11 @@ namespace Calendar_final_version
             DateTime EvDate = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter your new event name.");
             string NewName = Console.ReadLine();
-            Console.WriteLine("Enter new Date./dd.mm.yyyy");
+            Console.WriteLine("Enter new Date./mm.dd.yyyy");
             DateTime Date = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter new StartTime./hh:mm:ss");
             DateTime StartTime = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("Enter mew EndTime./hh:mm:ss");
+            Console.WriteLine("Enter new EndTime./hh:mm:ss");
             DateTime EndTime = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter new event Place.");
             string Place = Console.ReadLine();
@@ -91,7 +78,7 @@ namespace Calendar_final_version
             Console.WriteLine("Enter the name and date of the event.");
             Console.WriteLine("Enter the name.");
             string Name = Console.ReadLine();
-            Console.WriteLine("Enter the date./dd.mm.yyyy");
+            Console.WriteLine("Enter the date./mm.dd.yyyy");
             DateTime EvDate = DateTime.Parse(Console.ReadLine());
             DB_Connection Cancel = new DB_Connection();
             Cancel.DealeteEvent(Name, EvDate);
@@ -99,7 +86,7 @@ namespace Calendar_final_version
 
         public void Schedule()
         {
-            Console.WriteLine("Chose what date you want to see your schedule./dd.mm.yyyy");
+            Console.WriteLine("Choose what date you want to see your schedule./dd.mm.yyyy");
             DateTime ScheduleDate = DateTime.Parse(Console.ReadLine());
             DB_Connection Schedule = new DB_Connection();
             Schedule.Schedule(ScheduleDate);
@@ -107,7 +94,7 @@ namespace Calendar_final_version
 
         public void FindAvailability()
         {
-            Console.WriteLine("Enter the  tart time./hh:mm:ss");
+            Console.WriteLine("Enter the start time./hh:mm:ss");
             TimeSpan Start_Time = TimeSpan.Parse(Console.ReadLine());
             DB_Connection Availability = new DB_Connection();
             Availability.FindAvailability(Start_Time);
